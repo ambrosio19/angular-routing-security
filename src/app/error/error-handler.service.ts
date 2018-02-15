@@ -7,7 +7,6 @@ export class ErrorHandlerService {
   constructor(private router: Router) {
   }
 
-
   public handlerUserNotLogged() {
     this.router.navigate(['login']);
   }

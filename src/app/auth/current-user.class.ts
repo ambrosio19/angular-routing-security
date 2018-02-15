@@ -4,9 +4,6 @@ import {UserAuth} from './user-auth.model';
 export class CurrentUser {
   public user: UserAuth;
 
-  constructor() {
-  }
-
   public isLogged(): boolean {
     return !_.isNil(this.user);
   }

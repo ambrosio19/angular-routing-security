@@ -17,11 +17,9 @@ export class LoginComponent {
   public async login() {
     await this.authService.login(this.username, this.password);
 
-    const previousRouteToLogin = this.authGuardService.previousRouteToLogin;
-    if (!_.isNil(previousRouteToLogin)) {
-      console.log('previousRouteToLogin');
-      const fullPath = _.map(previousRouteToLogin.pathFromRoot, path => _.get(path, 'routeConfig.path')).join('/');
-      this.router.navigate([fullPath]);
+    const routePreviousToLogin = this.authGuardService.routePreviousToLogin;
+    if (!_.isNil(routePreviousToLogin)) {
+      this.router.navigateByUrl(routePreviousToLogin);
       return;
     }
 

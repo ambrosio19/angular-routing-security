@@ -14,10 +14,10 @@ const appRoutes: Routes = [
   },
   {
     // TODO: el path: '' debería ser la LP
-    path: 'test',
+    path: 'test/:foo',
     children: [
       {
-        path: 'home',
+        path: 'home/:bar',
         component: HomeComponent,
         canActivate: [AuthGuardService],
         data: {
