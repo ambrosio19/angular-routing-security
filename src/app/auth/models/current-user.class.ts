@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {UserAuth} from './user-auth.model';
+import {UserAuth} from './user-auth.class';
 
 export class CurrentUser {
   public user: UserAuth;

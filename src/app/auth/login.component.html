@@ -1,0 +1,14 @@
+<div class="center-content">
+  <div style="font-size: 24px; margin: 20px 0">Login</div>
+  <span class="ui-float-label" style="margin-top: 30px;">
+    <input id="login-username" type="text" size="30" pInputText [(ngModel)]="username">
+    <label for="login-username">Username</label>
+  </span>
+  <span class="ui-float-label" style="margin-top: 30px;">
+    <input id="login-password" type="text" size="30" pInputText [(ngModel)]="password">
+    <label for="login-password">Password</label>
+  </span>
+  <div style="margin-top: 25px;">
+    <button pButton type="button" label="Login" (click)="login()"></button>
+  </div>
+</div>

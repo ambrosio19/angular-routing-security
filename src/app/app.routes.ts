@@ -3,34 +3,48 @@ import {NgModule} from '@angular/core';
 
 import {AuthGuardService} from './auth/auth-guard.service';
 
-import {HomeComponent} from './home.component';
+import {HomeComponent} from './home/home.component';
 import {AdminComponent} from './admin/admin.component';
-import {UserComponent} from './user.component';
-import {LoginComponent} from './login.component';
+import {UserComponent} from './users/user.component';
+import {LoginComponent} from './auth/login.component';
+import {ErrorComponent} from './error/error.component';
+import {UserEditComponent} from './users/user-edit.component';
+import {AppComponent} from './app.component';
 
 const appRoutes: Routes = [
-  { path: 'login',
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'login',
     component: LoginComponent
   },
   {
-    // TODO: el path: '' debería ser la LP
-    path: 'test/:foo',
+    path: '',
+    component: AppComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      allowRoles: ['ROLE_ADMIN', 'ROLE_USER']
+    },
     children: [
       {
-        path: 'home/:bar',
-        component: HomeComponent,
-        canActivate: [AuthGuardService],
-        data: {
-          allowRoles: ['ROLE_USER', 'ROLE_ADMIN']
-        }
-      },
-      {
-        path: 'user',
+        path: 'users',
         component: UserComponent,
         canActivate: [AuthGuardService],
         data: {
-          allowRoles: ['ROLE_USER']
-        }
+          allowRoles: ['ROLE_ADMIN', 'ROLE_USER']
+        },
+        children: [
+          {
+            path: ':id/edit',
+            component: UserEditComponent,
+            canActivate: [AuthGuardService],
+            data: {
+              allowRoles: ['ROLE_ADMIN']
+            }
+          }
+        ]
       },
       {
         path: 'admin',
@@ -42,8 +56,15 @@ const appRoutes: Routes = [
       }
     ]
   },
-  //{ path: '', redirectTo: 'login' },
-  //{ path: '**', redirectTo: 'login' },
+  {
+    path: 'error',
+    component: ErrorComponent
+  },
+  {
+    path: 'error/:type',
+    component: ErrorComponent
+  },
+  {path: '**', redirectTo: 'error/404'},
 ];
 
 @NgModule({
@@ -58,4 +79,5 @@ const appRoutes: Routes = [
   ]
 })
 
-export class AppRoutes {}
+export class AppRoutes {
+}

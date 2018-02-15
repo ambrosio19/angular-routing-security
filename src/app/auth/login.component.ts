@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import * as _ from 'lodash';
-import {AuthService} from './auth/auth.service';
+import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
-import {AuthGuardService} from './auth/auth-guard.service';
+import {AuthGuardService} from './auth-guard.service';
 
 @Component({
   templateUrl: './login.component.html'
@@ -15,6 +15,8 @@ export class LoginComponent {
   }
 
   public async login() {
+    this.authService.logout();
+
     await this.authService.login(this.username, this.password);
 
     const routePreviousToLogin = this.authGuardService.routePreviousToLogin;
@@ -23,6 +25,6 @@ export class LoginComponent {
       return;
     }
 
-    this.router.navigate(['test/home']);
+    this.router.navigate(['users']);
   }
 }
