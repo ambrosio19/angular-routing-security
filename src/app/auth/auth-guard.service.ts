@@ -8,16 +8,16 @@ import {ErrorHandlerService} from '../error/error-handler.service';
 export class AuthGuardService implements CanActivate {
   public previousRouteToLogin: ActivatedRouteSnapshot;
 
-  constructor(public authService: AuthService, public errorHandlerService: ErrorHandlerService) {
+  constructor(private authService: AuthService, private errorHandlerService: ErrorHandlerService) {
   }
 
-  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
     console.log('canActivate start');
     this.previousRouteToLogin = null;
 
-    if (!this.authService.currentUser.isLogged()) {
-      await this.authService.initCurrentUserFromStorage();
-    }
+    // if (!this.authService.currentUser.isLogged()) {
+    //   await this.authService.initCurrentUserFromStorage();
+    // }
 
     if (!this.authService.currentUser.isLogged()) {
       this.previousRouteToLogin = route;

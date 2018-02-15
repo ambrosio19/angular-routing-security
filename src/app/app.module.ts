@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, APP_INITIALIZER} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
 import {AuthGuardService} from './auth/auth-guard.service';
@@ -15,12 +15,20 @@ import {LoginComponent} from './login.component';
 import {AppRoutes} from './app.routes';
 import {ErrorHandlerService} from './error/error-handler.service';
 
+export function AuthStartupServiceFactory(authService: AuthService): Function {
+  return () => authService.initCurrentUserFromStorage();
+}
+
 @NgModule({
   declarations: [AppComponent, HomeComponent, AdminComponent, UserComponent, LoginComponent],
   imports: [BrowserModule, FormsModule, AppRoutes],
-  providers: [AuthService, AuthGuardService, ErrorHandlerService, {
-    provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true,
-  }],
+  providers: [AuthService, AuthGuardService, ErrorHandlerService,
+    {
+      provide: APP_INITIALIZER, useFactory: AuthStartupServiceFactory, deps: [AuthService], multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true,
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
