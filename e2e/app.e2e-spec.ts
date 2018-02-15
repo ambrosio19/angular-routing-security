@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('angular-route-guard App', () => {
+describe('angular-routing-security App', () => {
   let page: AppPage;
 
   beforeEach(() => {
