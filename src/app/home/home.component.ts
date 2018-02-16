@@ -3,7 +3,7 @@ import {AuthService} from '../auth/auth.service';
 import {CurrentUser} from '../auth/models/current-user.class';
 
 @Component({
-  selector: 'app-home', templateUrl: './home.component.html'
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
   public currentUser: CurrentUser;

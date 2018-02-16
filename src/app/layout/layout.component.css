@@ -1,0 +1,18 @@
+.avatar {
+  width:42px;
+  height:42px;
+  overflow: hidden;
+  border-radius:50%;
+  position: relative;
+  display: inline-block;
+}
+
+.avatar img {
+  cursor: pointer;
+  width:42px;
+  height:42px;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%)
+}

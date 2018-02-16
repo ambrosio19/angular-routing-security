@@ -1,0 +1,13 @@
+<p-menubar [model]="items">
+  <div>
+    <span>{{currentUser.user.name}}</span>
+    <div class="avatar">
+      <img src="{{currentUser.user.imageUrl}}" alt="" (click)="menu.toggle($event)"/>
+    </div>
+    <p-tieredMenu #menu [model]="userItems" [popup]="true"></p-tieredMenu>
+  </div>
+</p-menubar>
+
+<div *appShowWithRoles="['ROLE_PEPE']">MENU</div>
+
+<router-outlet></router-outlet>

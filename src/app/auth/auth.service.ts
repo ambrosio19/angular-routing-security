@@ -22,14 +22,11 @@ export class AuthService {
 
   public async initCurrentUserFromStorage() {
     try {
-      console.log('initCurrentUserFromStorage: start');
-
       if (!_.isNil(this.getUserStorage())) {
         const userAuth: UserAuth = await this.fetchUserAuth();
         this.currentUser.user = userAuth;
       }
 
-      console.log('initCurrentUserFromStorage: end');
     } catch (ex) {
       // TODO: ErrorHandler
       return ex;
@@ -72,7 +69,6 @@ export class AuthService {
   }
 
   private fetchLogin(username: string, password: string): Promise<UserStorage> {
-    console.log(username);
     // MOCK: llamada al API para hacer login /api/login
     const fakeApiUserStorage: UserStorage = {
       name: username === 'admin' ? 'Uncle Bob' : 'Jhon Doe',

@@ -10,6 +10,7 @@ import {LoginComponent} from './auth/login.component';
 import {ErrorComponent} from './error/error.component';
 import {UserEditComponent} from './users/user-edit.component';
 import {AppComponent} from './app.component';
+import {LayoutComponent} from './layout/layout.component';
 
 const appRoutes: Routes = [
   {
@@ -22,11 +23,12 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    component: AppComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      allowRoles: ['ROLE_ADMIN', 'ROLE_USER']
-    },
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
+    component: LayoutComponent,
     children: [
       {
         path: 'users',
@@ -41,6 +43,7 @@ const appRoutes: Routes = [
             component: UserEditComponent,
             canActivate: [AuthGuardService],
             data: {
+              parent: UserComponent,
               allowRoles: ['ROLE_ADMIN']
             }
           }
