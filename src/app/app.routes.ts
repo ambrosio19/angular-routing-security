@@ -1,15 +1,13 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 
-import {AuthGuardService} from './auth/auth-guard.service';
+import {AuthGuardService} from './_auth/auth-guard.service';
 
 import {HomeComponent} from './home/home.component';
-import {AdminComponent} from './admin/admin.component';
 import {UserComponent} from './users/user.component';
-import {LoginComponent} from './auth/login.component';
-import {ErrorComponent} from './error/error.component';
+import {LoginComponent} from './login/login.component';
+import {ErrorComponent} from './errors/error.component';
 import {UserEditComponent} from './users/user-edit.component';
-import {AppComponent} from './app.component';
 import {LayoutComponent} from './layout/layout.component';
 
 const appRoutes: Routes = [
@@ -48,14 +46,6 @@ const appRoutes: Routes = [
             }
           }
         ]
-      },
-      {
-        path: 'admin',
-        component: AdminComponent,
-        canActivate: [AuthGuardService],
-        data: {
-          allowRoles: ['ROLE_ADMIN']
-        }
       }
     ]
   },

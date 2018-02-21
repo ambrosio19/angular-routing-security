@@ -1,9 +1,9 @@
 <div class="center-content">
   <img src="../../assets/img/logo.png">
-  <div style="font-size: 24px; margin: 20px 0">Welcome<span *ngIf="currentUser.isLogged()"> {{currentUser.user.name}}</span></div>
+  <div style="font-size: 24px; margin: 20px 0">Welcome<span *appShowWithLogged> {{currentUser.user.name}}</span></div>
   <div style="margin-top: 25px;">
-    <a *ngIf="!currentUser.isLogged()" pButton routerLink="/login" class="ui-button-secondary" label="Login"></a>
-    <a *ngIf="currentUser.isLogged()" pButton routerLink="/users" class="ui-button-secondary" label="Enter"></a>
-    <button *ngIf="currentUser.isLogged()" type="button" pButton (click)="logout()" class="ui-button-secondary" label="Logout"></button>
+    <a *appHideWithLogged pButton routerLink="/login" class="ui-button-secondary" label="Login"></a>
+    <a *appShowWithLogged pButton routerLink="/users" class="ui-button-secondary" label="Enter"></a>
+    <button *appShowWithLogged type="button" pButton (click)="logout()" class="ui-button-secondary" label="Logout"></button>
   </div>
 </div>

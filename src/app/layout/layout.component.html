@@ -1,13 +1,11 @@
-<p-menubar [model]="items">
-  <div>
-    <span>{{currentUser.user.name}}</span>
-    <div class="avatar">
-      <img src="{{currentUser.user.imageUrl}}" alt="" (click)="menu.toggle($event)"/>
-    </div>
-    <p-tieredMenu #menu [model]="userItems" [popup]="true"></p-tieredMenu>
+<div class="menu-top-user">
+  <button pButton type="button" label="Logout" (click)="logout()" class="ui-button-secondary" style="margin-right: 15px"></button>
+  <span>{{currentUser.user.name}}</span>
+  <div class="avatar">
+    <img src="{{currentUser.user.imageUrl}}" alt=""/>
   </div>
-</p-menubar>
+</div>
 
-<div *appShowWithRoles="['ROLE_PEPE']">MENU</div>
-
-<router-outlet></router-outlet>
+<div class="main-wrapper">
+  <router-outlet></router-outlet>
+</div>

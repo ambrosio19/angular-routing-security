@@ -10,37 +10,31 @@ import {TableModule} from 'primeng/table';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {DialogModule} from 'primeng/dialog';
 
-import {AuthGuardService} from './auth/auth-guard.service';
-import {AuthService} from './auth/auth.service';
+import {AuthGuardService} from './_auth/auth-guard.service';
+import {AuthService} from './_auth/auth.service';
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
-import {AdminComponent} from './admin/admin.component';
 import {UserComponent} from './users/user.component';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {AuthInterceptor} from './auth/auth.interceptor';
-import {LoginComponent} from './auth/login.component';
+import {AuthInterceptor} from './_auth/auth.interceptor';
+import {LoginComponent} from './login/login.component';
 import {AppRoutes} from './app.routes';
-import {ErrorHandlerService} from './error/error-handler.service';
-import {ErrorComponent} from './error/error.component';
+import {ErrorComponent} from './errors/error.component';
 import {UserEditComponent} from './users/user-edit.component';
 import {LayoutComponent} from './layout/layout.component';
-import {ShowWithRolesDirective} from './auth/utils/show-with-any-roles.component';
-
-export function AuthStartupServiceFactory(authService: AuthService): Function {
-  return () => authService.initCurrentUserFromStorage();
-}
+import {ShowWithRolesDirective} from './_auth/utils/show-with-roles.directive';
+import {ShowWithLoggedDirective} from './_auth/utils/show-with-logged.directive';
+import {HideWithLoggedDirective} from './_auth/utils/hide-with-logged.directive';
+import {ShowWithAnyRolesDirective} from './_auth/utils/show-with-any-roles.directive';
+import {AuthInitializer} from './_auth/auth.initializer';
+import {ApiMockInterceptor} from './_apiMock/apiMock.interceptor';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterHistoryService} from './_helpers/router-history.service';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AdminComponent, UserComponent, LoginComponent, ErrorComponent, UserEditComponent, LayoutComponent, ShowWithRolesDirective],
-  imports: [BrowserModule, BrowserAnimationsModule, FormsModule, AppRoutes, ButtonModule, InputTextModule, MenubarModule, TieredMenuModule, TableModule, SplitButtonModule, DialogModule],
-  providers: [AuthService, AuthGuardService, ErrorHandlerService,
-    {
-      provide: APP_INITIALIZER, useFactory: AuthStartupServiceFactory, deps: [AuthService], multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true,
-    }],
+  declarations: [AppComponent, HomeComponent, UserComponent, LoginComponent, ErrorComponent, UserEditComponent, LayoutComponent, ShowWithRolesDirective, ShowWithAnyRolesDirective, ShowWithLoggedDirective, HideWithLoggedDirective],
+  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, FormsModule, AppRoutes, ButtonModule, InputTextModule, MenubarModule, TieredMenuModule, TableModule, SplitButtonModule, DialogModule],
+  providers: [AuthService, AuthGuardService, AuthInitializer, AuthInterceptor, ApiMockInterceptor, RouterHistoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

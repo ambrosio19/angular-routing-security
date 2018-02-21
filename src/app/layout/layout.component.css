@@ -1,7 +1,26 @@
+.menu-top-user {
+  float: right;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #EEECE8;
+  border-bottom: 1px solid #a7a7a7;
+}
+
+.main-wrapper {
+  width: 600px;
+  margin: 0 auto;
+}
+
 .avatar {
+  margin-left: 15px;
   width:42px;
   height:42px;
   overflow: hidden;
+  border: 1px solid #a7a7a7;
   border-radius:50%;
   position: relative;
   display: inline-block;

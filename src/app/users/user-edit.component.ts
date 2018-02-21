@@ -1,16 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UserComponent} from './user.component';
 
 @Component({
   templateUrl: './user-edit.component.html'
 })
-export class UserEditComponent implements OnInit {
-  ngOnInit(): void {
-   this.parentComponent.reloadFromChild();
-  }
+export class UserEditComponent {
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private parentComponent: UserComponent) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   closeDialog() {

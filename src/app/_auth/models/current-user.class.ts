@@ -8,6 +8,14 @@ export class CurrentUser {
     return !_.isNil(this.user);
   }
 
+  public hasRoles(roles: string[]): boolean {
+    if (!this.isLogged()) {
+      return false;
+    }
+
+    return _.difference(this.user.roles, roles).length === 0;
+  }
+
   public hasAnyRoles(roles: string[]): boolean {
     if (!this.isLogged()) {
       return false;

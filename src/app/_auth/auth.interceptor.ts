@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/observable';
 
 import {AuthService} from './auth.service';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class AuthInterceptorClass implements HttpInterceptor {
 
   constructor(private authService: AuthService) {
   }
 
   public intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
     if (!httpRequest.headers.has('Content-Type')) {
       httpRequest = httpRequest.clone({
         headers: httpRequest.headers.set('Content-Type', 'application/json;Charset=UTF-8')
@@ -21,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const userToken: string = this.authService.getUserTokenFromStorage();
       if (userToken != null) {
         httpRequest = httpRequest.clone({
-          headers: httpRequest.headers.set('Authorization', 'Basic ' + userToken)
+          headers: httpRequest.headers.set('Authorization', 'Bearer ' + userToken)
         });
       }
     }
@@ -29,3 +30,9 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(httpRequest);
   }
 }
+
+export let AuthInterceptor = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptorClass,
+  multi: true
+};

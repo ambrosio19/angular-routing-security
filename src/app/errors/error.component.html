@@ -2,5 +2,6 @@
   <img style="height: 420px" src="../../assets/img/{{imageType}}.png">
   <div>
     <a pButton routerLink="/home" class="ui-button-secondary" label="Go to Home"></a>
+    <button *ngIf="canGoBack()" pButton class="ui-button-secondary" label="Go back" (click)="goBack()"></button>
   </div>
 </div>

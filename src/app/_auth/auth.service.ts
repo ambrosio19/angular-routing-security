@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
-import {Observable} from 'rxjs/Observable';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {distinctUntilChanged} from 'rxjs/operators';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 
 import {Constants} from '../app.constants';
@@ -14,22 +15,31 @@ import {CurrentUser} from './models/current-user.class';
 
 @Injectable()
 export class AuthService {
-  public currentUser: CurrentUser;
+  public currentUserSubject = new BehaviorSubject<CurrentUser>(new CurrentUser());
+  public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
 
-  constructor() {
-    this.currentUser = new CurrentUser();
+  constructor(private httpClient: HttpClient) {
+  }
+
+  public getCurrentUser(): CurrentUser {
+    return this.currentUserSubject.value;
   }
 
   public async initCurrentUserFromStorage() {
     try {
       if (!_.isNil(this.getUserStorage())) {
         const userAuth: UserAuth = await this.fetchUserAuth();
-        this.currentUser.user = userAuth;
+
+        console.log('userAuth', userAuth);
+
+        const newCurrentUser = new CurrentUser();
+        newCurrentUser.user = userAuth;
+        this.currentUserSubject.next(newCurrentUser);
       }
 
     } catch (ex) {
       // TODO: ErrorHandler
-      return ex;
+      throw ex;
     }
   }
 
@@ -41,12 +51,12 @@ export class AuthService {
       await this.initCurrentUserFromStorage();
     } catch (ex) {
       // TODO: ErrorHandler
-      return ex;
+      throw ex;
     }
   }
 
   public logout(): any {
-    this.currentUser.user = null;
+    this.currentUserSubject.next(new CurrentUser());
     this.deleteUserStorage();
   }
 
@@ -69,26 +79,10 @@ export class AuthService {
   }
 
   private fetchLogin(username: string, password: string): Promise<UserStorage> {
-    // MOCK: llamada al API para hacer login /api/login
-    const fakeApiUserStorage: UserStorage = {
-      name: username === 'admin' ? 'Uncle Bob' : 'Jhon Doe',
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ',
-    };
-    return Observable.of(fakeApiUserStorage).delay(800).first().toPromise();
-    // MOCK: end
+    return this.httpClient.post<UserStorage>('/api/login', {username, password}).first().toPromise();
   }
 
   private fetchUserAuth(): Promise<UserAuth> {
-    // Al crear un interceptor http que añada el token a la cabecera nos dará el usuario actualmente autorizado
-    // MOCK: llamada al API para obtener el usuario actual /api/me
-    const userStorage: UserStorage = this.getUserStorage();
-    const fakeApiUserAuth: UserAuth = {
-      name: userStorage.name,
-      email: `${_.kebabCase(userStorage.name)}@postavy.cz`,
-      roles: userStorage.name === 'Uncle Bob' ? ['ROLE_USER', 'ROLE_ADMIN'] : ['ROLE_USER'],
-      imageUrl: userStorage.name === 'Uncle Bob' ? 'https://qph.ec.quoracdn.net/main-thumb-t-16115-200-rd2w6hdkyh0ioYnuG251TKJKduUcFbv2.jpeg' : 'http://www.postavy.cz/foto/john-doe-foto.jpg',
-    };
-    return Observable.of(fakeApiUserAuth).delay(800).first().toPromise();
-    // MOCK: end
+    return this.httpClient.get<UserAuth>('/api/me').first().toPromise();
   }
 }
