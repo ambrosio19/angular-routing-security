@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from '../_auth/auth.service';
-import {CurrentUser} from '../_auth/models/current-user.class';
 import {BaseComponent} from '../_helpers/base.component';
 
 @Component({
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html', styleUrls: ['./home.component.css']
 })
 export class HomeComponent extends BaseComponent {
 

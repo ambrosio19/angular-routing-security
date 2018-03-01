@@ -27,10 +27,9 @@ export class AuthService {
 
   public async initCurrentUserFromStorage() {
     try {
-      if (!_.isNil(this.getUserStorage())) {
-        const userAuth: UserAuth = await this.fetchUserAuth();
 
-        console.log('userAuth', userAuth);
+      if (!_.isNil(this.getUserToken())) {
+        const userAuth: UserAuth = await this.fetchUserAuth();
 
         const newCurrentUser = new CurrentUser();
         newCurrentUser.user = userAuth;
@@ -38,7 +37,6 @@ export class AuthService {
       }
 
     } catch (ex) {
-      // TODO: ErrorHandler
       throw ex;
     }
   }
@@ -50,7 +48,20 @@ export class AuthService {
 
       await this.initCurrentUserFromStorage();
     } catch (ex) {
-      // TODO: ErrorHandler
+      throw ex;
+    }
+  }
+
+  public async refreshToken() {
+    try {
+
+      const refreshToken = this.getRefreshToken();
+      if (!_.isNil(refreshToken)) {
+        const userStorage: UserStorage = await this.fetchRefreshToken(refreshToken);
+        this.setUserStorage(userStorage);
+      }
+
+    } catch (ex) {
       throw ex;
     }
   }
@@ -60,9 +71,14 @@ export class AuthService {
     this.deleteUserStorage();
   }
 
-  public getUserTokenFromStorage(): string {
+  public getUserToken(): string {
     const userStorage: UserStorage = this.getUserStorage();
     return _.isNil(userStorage) ? null : userStorage.token;
+  }
+
+  private getRefreshToken(): string {
+    const userStorage: UserStorage = this.getUserStorage();
+    return _.isNil(userStorage) ? null : userStorage.refreshToken;
   }
 
   private setUserStorage(userStorage: UserStorage) {
@@ -79,10 +95,19 @@ export class AuthService {
   }
 
   private fetchLogin(username: string, password: string): Promise<UserStorage> {
-    return this.httpClient.post<UserStorage>('/api/login', {username, password}).first().toPromise();
+    return this.httpClient.post<UserStorage>('/api/token', {username, password}).first().toPromise();
+  }
+
+  private fetchRefreshToken(refreshToken: string): Promise<UserStorage> {
+    return this.httpClient.post<UserStorage>('/api/refreshToken', {refreshToken}).first().toPromise();
   }
 
   private fetchUserAuth(): Promise<UserAuth> {
     return this.httpClient.get<UserAuth>('/api/me').first().toPromise();
+  }
+
+  // TODO: Remove. Only for testing
+  public fetchCallAPI(): Promise<any> {
+    return this.httpClient.get<any>('/api/data').first().toPromise();
   }
 }

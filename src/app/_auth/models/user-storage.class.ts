@@ -1,4 +1,4 @@
 export class UserStorage {
-  name: string;
   token: string;
+  refreshToken: string;
 }

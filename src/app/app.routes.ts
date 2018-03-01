@@ -41,7 +41,6 @@ const appRoutes: Routes = [
             component: UserEditComponent,
             canActivate: [AuthGuardService],
             data: {
-              parent: UserComponent,
               allowRoles: ['ROLE_ADMIN']
             }
           }
@@ -62,12 +61,9 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(
-      appRoutes,
-      // { enableTracing: true } // <-- debugging purposes only
+    RouterModule.forRoot(appRoutes, // { enableTracing: true } // <-- debugging purposes only
     )
-  ],
-  exports: [
+  ], exports: [
     RouterModule
   ]
 })

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {RouterHistoryService} from '../_helpers/router-history.service';
+import {ActivatedRoute} from '@angular/router';
+import {ErrorHandlerService} from '../_errors/error-handler.service';
 
 @Component({
   templateUrl: './error.component.html'
@@ -8,7 +8,7 @@ import {RouterHistoryService} from '../_helpers/router-history.service';
 export class ErrorComponent implements OnInit {
   public imageType: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerHistoryService: RouterHistoryService) {
+  constructor(private activatedRoute: ActivatedRoute, private errorHandlerService: ErrorHandlerService) {
   }
 
   ngOnInit(): void {
@@ -16,12 +16,11 @@ export class ErrorComponent implements OnInit {
   }
 
   canGoBack() {
-    console.log(this.routerHistoryService.previousUrl);
-    return this.routerHistoryService.hasPreviousUrl();
+    return this.errorHandlerService.hasPreviousUrl();
   }
 
   goBack() {
-    this.router.navigateByUrl(this.routerHistoryService.previousUrl);
+    return this.errorHandlerService.goBack();
   }
 
 

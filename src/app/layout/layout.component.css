@@ -1,13 +1,21 @@
 .menu-top-user {
   float: right;
-  padding: 10px 15px;
+  padding: 10px 0;
   margin-bottom: 15px;
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: flex-end;
-  background-color: #EEECE8;
+  background-color: #eeece8;
   border-bottom: 1px solid #a7a7a7;
+}
+
+.menu-top-user .logout {
+  margin-right: 15px;
+}
+
+.menu-top-user .home {
+  margin: 0 auto 0 15px;
 }
 
 .main-wrapper {
@@ -16,22 +24,28 @@
 }
 
 .avatar {
-  margin-left: 15px;
-  width:42px;
-  height:42px;
+  margin: 0 15px;
+  width: 42px;
+  height: 42px;
   overflow: hidden;
   border: 1px solid #a7a7a7;
-  border-radius:50%;
+  border-radius: 50%;
   position: relative;
   display: inline-block;
 }
 
 .avatar img {
   cursor: pointer;
-  width:42px;
-  height:42px;
+  width: 42px;
+  height: 42px;
   position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%)
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
+
+.dev-controls {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
 }

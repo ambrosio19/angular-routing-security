@@ -1,32 +1,23 @@
-# AngularRoutingSecurity
+# Problema
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
+# Solución
 
-## Development server
+# Manos a la obra
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Gestionar usuario activo después de un login
 
-## Code scaffolding
+## Inicializar usuario al ejecutar la aplicación
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Proteger acceso a páginas mediante roles
 
-## Build
+## Refrescar token de forma transparente
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Utilidades
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Recursos
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-## Recursos
+# Fuentes
 
 [Angular Router Fundamentals: Child Routes, Auxiliary Routes, Master-Detail](https://blog.angular-university.io/angular2-router/)
 
@@ -37,3 +28,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 [Start Loading](https://gitlab.ic.es.atos.net/angular-seedprojects/angular-start-loading)
 
 [Redirect to Previous URL after Login with Auth Guard](http://jasonwatmore.com/post/2016/12/08/angular-2-redirect-to-previous-url-after-login-with-auth-guard)
+
+[Access Token Response](https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/)
+
+[Angular 4 Interceptor retry requests after token refresh](https://stackoverflow.com/questions/45202208/angular-4-interceptor-retry-requests-after-token-refresh)
+
+[Angular 4 Tutorial – Handling Refresh Token with New HttpInterceptor](https://www.intertech.com/Blog/angular-4-tutorial-handling-refresh-token-with-new-httpinterceptor/)

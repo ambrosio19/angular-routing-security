@@ -2,7 +2,7 @@ import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {CurrentUser} from '../models/current-user.class';
 
-@Directive({ selector: '[appShowWithRoles]'})
+@Directive({selector: '[appShowWithRoles]'})
 export class ShowWithRolesDirective {
   private hasView = false;
   private roles: string[];
@@ -15,7 +15,8 @@ export class ShowWithRolesDirective {
     });
   }
 
-  @Input() set appShowWithRoles(roles: string[]) {
+  @Input()
+  set appShowWithRoles(roles: string[]) {
     this.roles = roles;
     this.refresh();
   }
