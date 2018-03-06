@@ -13,7 +13,7 @@ export class CurrentUser {
       return false;
     }
 
-    return _.difference(this.user.roles, roles).length === 0;
+    return _.difference(roles, this.user.roles).length === 0;
   }
 
   public hasAnyRoles(roles: string[]): boolean {

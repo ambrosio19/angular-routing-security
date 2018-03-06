@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {BaseComponent} from '../_helpers/base.component';
 import {ErrorHandlerService} from '../_errors/error-handler.service';
 
+import 'rxjs/add/operator/catch';
+
 @Component({
   templateUrl: './login.component.html', styleUrls: ['./login.component.css']
 })
@@ -16,23 +18,21 @@ export class LoginComponent extends BaseComponent {
     super(authService);
   }
 
-  public async login() {
+  public login() {
     this.authService.logout();
 
-    try {
-      await this.authService.login(this.username, this.password);
-
+    this.authService.login(this.username, this.password).subscribe(() => {
       if (this.errorHandlerService.hasPreviousUrlToLogin()) {
         this.router.navigateByUrl(this.errorHandlerService.previousUrlToLogin);
         return;
       }
 
       this.router.navigate(['users']);
-    } catch (ex) {
+    }, err => {
       // TODO: error handler
-      if (_.get(ex, 'status') === 400) {
+      if (_.get(err, 'status') === 400) {
         alert('Username or Password wrong!');
       }
-    }
+    });
   }
 }

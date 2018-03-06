@@ -21,6 +21,8 @@ export class AuthInterceptorClass implements HttpInterceptor {
 
   public intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<any> {
 
+    console.log('intercept');
+
     if (!httpRequest.headers.has('Content-Type')) {
       httpRequest = this.addHeaderContentType(httpRequest);
     }
@@ -54,7 +56,7 @@ export class AuthInterceptorClass implements HttpInterceptor {
   }
 
   private addHeaderAuthorization(httpRequest: HttpRequest<any>): HttpRequest<any> {
-    const userToken: string = this.authService.getUserToken();
+    const userToken = this.authService.getUserToken();
     if (userToken == null) {
       return httpRequest;
     }
@@ -65,30 +67,25 @@ export class AuthInterceptorClass implements HttpInterceptor {
   }
 
   private refreshToken(): Observable<any> {
-
-    return new Observable(observer => {
-
       if (this.refreshTokenInProgress) {
 
-        this.tokenRefreshed.subscribe(() => {
-          observer.next();
-          observer.complete();
+        return new Observable(observer => {
+          this.tokenRefreshed.subscribe(() => {
+            observer.next();
+            observer.complete();
+          });
         });
 
       } else {
 
         this.refreshTokenInProgress = true;
 
-        this.authService.refreshToken()
-          .then(() => {
-            this.refreshTokenInProgress = false;
-            this.tokenRefreshedSubject.next();
-            observer.next();
-            observer.complete();
-          }).catch(err => observer.error(err));
-      }
+        return this.authService.refreshToken().map(() => {
+          this.refreshTokenInProgress = false;
+          this.tokenRefreshedSubject.next();
+        });
 
-    });
+      }
   }
 }
 

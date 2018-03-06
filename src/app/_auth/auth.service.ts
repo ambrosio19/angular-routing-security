@@ -6,69 +6,68 @@ import {distinctUntilChanged} from 'rxjs/operators';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/map';
 
 import {Constants} from '../app.constants';
 
 import {UserStorage} from './models/user-storage.class';
 import {UserAuth} from './models/user-auth.class';
 import {CurrentUser} from './models/current-user.class';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
-  public currentUserSubject = new BehaviorSubject<CurrentUser>(new CurrentUser());
+  private currentUserSubject = new BehaviorSubject<CurrentUser>(new CurrentUser());
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
 
   constructor(private httpClient: HttpClient) {
   }
 
-  public getCurrentUser(): CurrentUser {
-    return this.currentUserSubject.value;
-  }
-
-  public async initCurrentUserFromStorage() {
-    try {
-
-      if (!_.isNil(this.getUserToken())) {
-        const userAuth: UserAuth = await this.fetchUserAuth();
-
-        const newCurrentUser = new CurrentUser();
-        newCurrentUser.user = userAuth;
-        this.currentUserSubject.next(newCurrentUser);
-      }
-
-    } catch (ex) {
-      throw ex;
+  public initCurrentUserFromStorage(): Observable<void> {
+    if (!_.isNil(this.getUserToken())) {
+      return this.fetchUserAuth().map((userAuth: UserAuth) => {
+        this.setCurrentUser(userAuth);
+      });
     }
+
+    return Observable.empty();
   }
 
-  public async login(username: string, password: string) {
-    try {
-      const userStorage: UserStorage = await this.fetchLogin(username, password);
+  public login(username: string, password: string): Observable<void> {
+    return this.fetchLogin(username, password).flatMap((userStorage: UserStorage) => {
       this.setUserStorage(userStorage);
 
-      await this.initCurrentUserFromStorage();
-    } catch (ex) {
-      throw ex;
-    }
+      return this.initCurrentUserFromStorage();
+    });
   }
 
-  public async refreshToken() {
-    try {
-
+  public refreshToken(): Observable<void> {
       const refreshToken = this.getRefreshToken();
+
       if (!_.isNil(refreshToken)) {
-        const userStorage: UserStorage = await this.fetchRefreshToken(refreshToken);
-        this.setUserStorage(userStorage);
+        return this.fetchRefreshToken(refreshToken).map((userStorage: UserStorage) => {
+          this.setUserStorage(userStorage);
+        });
       }
 
-    } catch (ex) {
-      throw ex;
-    }
+      return Observable.empty();
   }
 
   public logout(): any {
     this.currentUserSubject.next(new CurrentUser());
     this.deleteUserStorage();
+  }
+
+
+
+  public getCurrentUser(): CurrentUser {
+    return this.currentUserSubject.value;
+  }
+
+  public setCurrentUser(userAuth: UserAuth) {
+    const newCurrentUser = new CurrentUser();
+    newCurrentUser.user = userAuth;
+    this.currentUserSubject.next(newCurrentUser);
   }
 
   public getUserToken(): string {
@@ -80,6 +79,8 @@ export class AuthService {
     const userStorage: UserStorage = this.getUserStorage();
     return _.isNil(userStorage) ? null : userStorage.refreshToken;
   }
+
+
 
   private setUserStorage(userStorage: UserStorage) {
     localStorage.setItem(Constants.localStorage.user, JSON.stringify(userStorage));
@@ -94,20 +95,22 @@ export class AuthService {
     localStorage.removeItem(Constants.localStorage.user);
   }
 
-  private fetchLogin(username: string, password: string): Promise<UserStorage> {
-    return this.httpClient.post<UserStorage>('/api/token', {username, password}).first().toPromise();
+
+
+  private fetchLogin(username: string, password: string): Observable<UserStorage> {
+    return this.httpClient.post<UserStorage>('/api/token', {username, password});
   }
 
-  private fetchRefreshToken(refreshToken: string): Promise<UserStorage> {
-    return this.httpClient.post<UserStorage>('/api/refreshToken', {refreshToken}).first().toPromise();
+  private fetchRefreshToken(refreshToken: string): Observable<UserStorage> {
+    return this.httpClient.post<UserStorage>('/api/refreshToken', {refreshToken});
   }
 
-  private fetchUserAuth(): Promise<UserAuth> {
-    return this.httpClient.get<UserAuth>('/api/me').first().toPromise();
+  private fetchUserAuth(): Observable<UserAuth> {
+    return this.httpClient.get<UserAuth>('/api/me');
   }
 
   // TODO: Remove. Only for testing
-  public fetchCallAPI(): Promise<any> {
-    return this.httpClient.get<any>('/api/data').first().toPromise();
+  public fetchCallAPI(): Observable<any> {
+    return this.httpClient.get<any>('/api/data');
   }
 }

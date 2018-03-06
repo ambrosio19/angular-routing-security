@@ -33,13 +33,8 @@ export class LayoutComponent extends BaseComponent {
   }
 
   // TODO: Remove. Only for testing
-  public async fetchData() {
-    try {
-      await this.authService.fetchCallAPI();
-    } catch (err) {
-      console.error(err);
-    }
-
+  public fetchData() {
+    this.authService.fetchCallAPI();
   }
 
 }

@@ -52,6 +52,9 @@
     }
   ],
   "test": {
+    "codeCoverage": {
+      "exclude": ["./src/app/_apiMock/**"]
+    },
     "karma": {
       "config": "./karma.conf.js"
     }
