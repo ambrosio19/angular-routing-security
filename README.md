@@ -1,6 +1,10 @@
 # Problema
 
+Muchas veces la gestión de usuarios activos y los permisos dentro de la aplicación pueden complicarse si no se hace un planteamiento acertado desde un primer momento.
+
 # Solución
+
+Proponer una solución de base que resuelva los problemas se gestión y seguridad de usuarios más cotidianos como establecer el usuario activo en memoria mientras se ejecute la aplicación, proteger rutas contra accesos no autorizados, iniciar un usuario guardado al ejecutarse la aplicación, refrescar un token de manera transparente al usuario. 
 
 # Manos a la obra
 
@@ -8,14 +12,32 @@
 
 ## Inicializar usuario al ejecutar la aplicación
 
-## Proteger acceso a páginas mediante roles
+## Proteger acceso a páginas mediante usuarios autenticados y roles
 
 ## Refrescar token de forma transparente
 
 ## Utilidades
 
+# Ejecutar aplicación
+
+Para ejecutar la aplicación basta con descargar el proyecto acceder desde la consola al directorio del mismo y ejecutar ``npm install`` y ``npm run start``.
+
+## Testing
+
+Para ejecutar los test accedemos desde la consola al directorio del proyecto y ejecutamos ``npm run test``. Los test generan un directorio con los resultados de la cobertura que podemos ver abriendo ``\coverage\index.html``.
+
+
+**Configurar cobertura de test**
+
+Para que al ejecutar los test se detecten todos los archivos de la aplicación y haga una cobertura global importamos en el archivo ``\src\test.ts`` el ``app.modules.ts``.
+
+Si queremos excluir de la cobertura algún directorio o archivo lo podremos hacer en el archivo ``\.angular-cli.json`` dentro de la propiedad ``test.codeCoverage.exclude``.
+
+La configuración general de la cobertura se define en el archivo ``\karma.conf.js`` dentro de la propiedad ``coverageIstanbulReporter``.
 
 # Recursos
+
+...
 
 # Fuentes
 
