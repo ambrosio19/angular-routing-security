@@ -11,7 +11,7 @@ describe('AuthInitializer', () => {
 
     public initCurrentUserFromStorage = () => {
       this.initCurrentUser = true;
-      return Observable.empty();
+      return Observable.of(null);
     }
   }
 
