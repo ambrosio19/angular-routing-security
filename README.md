@@ -10,13 +10,21 @@ Proponer una solución de base que resuelva los problemas se gestión y segurida
 
 ## Gestionar usuario activo después de un login
 
+## Automatizar la definición de cabecera de seguridad en llamadas http
+
 **Interceptor Http**
 
 ## Inicializar usuario al ejecutar la aplicación
 
+**Inicializador de la aplicación**
+
 ## Proteger acceso a páginas mediante usuarios autenticados y roles
 
+**Route Guard**
+
 ## Refrescar token de forma transparente
+
+**Importancia de tratar bien los códigos de estado http**
 
 ## Utilidades
 
@@ -27,6 +35,8 @@ Proponer una solución de base que resuelva los problemas se gestión y segurida
 # Ejecutar aplicación
 
 Para ejecutar la aplicación basta con descargar el proyecto acceder desde la consola al directorio del mismo y ejecutar ``npm install`` y ``npm run start``.
+
+Los usuarios para poder probar la aplicación son **admin** y **user** con cualquier contraseña. Se puede ver el mock del API en el archivo ``\src\app\_apiMock\apiMock.interceptor.ts``.
 
 ## Testing
 
