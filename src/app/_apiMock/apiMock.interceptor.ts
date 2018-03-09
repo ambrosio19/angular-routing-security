@@ -60,7 +60,7 @@ export class ApiMockInterceptorClass implements HttpInterceptor {
           const body = {
             name: 'Uncle Bob',
             email: `uncle-bob@postavy.cz`,
-            roles: ['ROLE_USER', 'ROLE_ADMIN'],
+            roles: ['ROLE_ADMIN'],
             imageUrl: 'https://qph.ec.quoracdn.net/main-thumb-t-16115-200-rd2w6hdkyh0ioYnuG251TKJKduUcFbv2.jpeg',
           };
           return Observable.of(new HttpResponse({status: 200, body}));
