@@ -12,51 +12,36 @@ import {LayoutComponent} from './layout/layout.component';
 
 const appRoutes: Routes = [
   {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
-  {
-    path: '',
-    component: LayoutComponent,
+    path: 'home', component: HomeComponent
+  }, {
+    path: 'login', component: LoginComponent
+  }, {
+    path: '', redirectTo: '/home', pathMatch: 'full',
+  }, {
+    path: '', component: LayoutComponent,
     children: [
       {
-        path: 'users',
-        component: UserComponent,
+        path: 'users', component: UserComponent,
         canActivate: [AuthGuardService],
         data: {
           allowRoles: ['ROLE_ADMIN', 'ROLE_USER']
         },
         children: [
-          {
-            path: ':id/edit',
-            component: UserEditComponent,
-            canActivate: [AuthGuardService],
-            data: {
-              allowRoles: ['ROLE_ADMIN']
-            }
+        {
+          path: ':id/edit', component: UserEditComponent,
+          canActivate: [AuthGuardService],
+          data: {
+            allowRoles: ['ROLE_ADMIN']
           }
-        ]
+        }
+      ]
       }
     ]
-  },
-  {
-    path: 'error',
-    component: ErrorComponent
-  },
-  {
-    path: 'error/:type',
-    component: ErrorComponent
-  },
-  {path: '**', redirectTo: 'error/404'},
+  }, {
+    path: 'error', component: ErrorComponent
+  }, {
+    path: 'error/:type', component: ErrorComponent
+  }, {path: '**', redirectTo: 'error/404'},
 ];
 
 @NgModule({

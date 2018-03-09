@@ -1,7 +1,7 @@
 import {async, TestBed} from '@angular/core/testing';
 import {AuthService} from '../../app/_auth/auth.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ErrorHandlerService} from '../../app/_errors/error-handler.service';
+import {ErrorHandlerService} from '../../app/_shared/error-handler.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
@@ -15,7 +15,7 @@ describe('ErrorHandler', () => {
     public events = this.navigationEndSubject.asObservable();
     public url = 'testingUrl';
 
-    public navigateByUrl = () => {}
+    public navigateByUrl = () => {};
     public navigate = () => {};
   }
 

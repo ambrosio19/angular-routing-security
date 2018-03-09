@@ -19,7 +19,7 @@ export class ApiMockInterceptorClass implements HttpInterceptor {
 
   public intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    console.log(`intercept call: ${httpRequest.url}`);
+    console.log(`API call: ${httpRequest.url}`);
 
     return Observable.of(null).mergeMap(() => {
 
@@ -88,9 +88,9 @@ export class ApiMockInterceptorClass implements HttpInterceptor {
       return next.handle(httpRequest);
 
     }).delay(600)
-      .do(value => console.log(`intercept response: ${httpRequest.url}`, value))
+      .do(value => console.log(`API response: ${httpRequest.url} - status: ${value.status}`))
       .catch((err, caught) => {
-        console.error(`intercept response: ${httpRequest.url}`, err);
+        console.error(`API response: ${httpRequest.url} - status: ${err.status}`);
         return Observable.throw(err);
       });
   }

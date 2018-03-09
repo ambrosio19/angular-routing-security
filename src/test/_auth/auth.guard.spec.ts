@@ -3,7 +3,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {async, TestBed} from '@angular/core/testing';
 import {AuthGuardService} from '../../app/_auth/auth-guard.service';
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import {ErrorHandlerService} from '../../app/_errors/error-handler.service';
+import {ErrorHandlerService} from '../../app/_shared/error-handler.service';
 
 describe('AuthGuard', () => {
   let mockErrorHandlerService: MockErrorHandlerService;

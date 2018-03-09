@@ -1,7 +1,7 @@
 import {AuthService} from '../../app/_auth/auth.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ErrorHandlerService} from '../../app/_errors/error-handler.service';
+import {ErrorHandlerService} from '../../app/_shared/error-handler.service';
 import {LoginComponent} from '../../app/login/login.component';
 import {Observable} from 'rxjs/Observable';
 import {RouterTestingModule} from '@angular/router/testing';

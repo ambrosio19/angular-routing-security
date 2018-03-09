@@ -24,16 +24,20 @@ export class AuthService {
   }
 
   public initCurrentUserFromStorage(): Observable<void> {
+    console.log('-- initCurrentUser()');
+
     if (!_.isNil(this.getUserToken())) {
       return this.fetchUserAuth().map((userAuth: UserAuth) => {
         this.setCurrentUser(userAuth);
       });
     }
 
-    return Observable.empty();
+    return Observable.of(null);
   }
 
   public login(username: string, password: string): Observable<void> {
+    console.log('-- login()');
+
     return this.fetchLogin(username, password).flatMap((userStorage: UserStorage) => {
       this.setUserStorage(userStorage);
 
@@ -41,23 +45,12 @@ export class AuthService {
     });
   }
 
-  public refreshToken(): Observable<void> {
-      const refreshToken = this.getRefreshToken();
-
-      if (!_.isNil(refreshToken)) {
-        return this.fetchRefreshToken(refreshToken).map((userStorage: UserStorage) => {
-          this.setUserStorage(userStorage);
-        });
-      }
-
-      return Observable.empty();
-  }
-
   public logout(): any {
+    console.log('-- logout()');
+
     this.currentUserSubject.next(new CurrentUser());
     this.deleteUserStorage();
   }
-
 
 
   public getCurrentUser(): CurrentUser {
@@ -75,11 +68,25 @@ export class AuthService {
     return _.isNil(userStorage) ? null : userStorage.token;
   }
 
+
+  public refreshToken(): Observable<void> {
+    console.log('-- refreshToken()');
+
+    const refreshToken = this.getRefreshToken();
+
+    if (!_.isNil(refreshToken)) {
+      return this.fetchRefreshToken(refreshToken).map((userStorage: UserStorage) => {
+        this.setUserStorage(userStorage);
+      });
+    }
+
+    return Observable.of(null);
+  }
+
   private getRefreshToken(): string {
     const userStorage: UserStorage = this.getUserStorage();
     return _.isNil(userStorage) ? null : userStorage.refreshToken;
   }
-
 
 
   private setUserStorage(userStorage: UserStorage) {
@@ -96,13 +103,12 @@ export class AuthService {
   }
 
 
-
   private fetchLogin(username: string, password: string): Observable<UserStorage> {
     return this.httpClient.post<UserStorage>('/api/token', {username, password});
   }
 
   private fetchRefreshToken(refreshToken: string): Observable<UserStorage> {
-    return this.httpClient.post<UserStorage>('/api/refreshToken', {refreshToken});
+    return this.httpClient.post<UserStorage>('/api/refreshToken', {refreshToken},);
   }
 
   private fetchUserAuth(): Observable<UserAuth> {

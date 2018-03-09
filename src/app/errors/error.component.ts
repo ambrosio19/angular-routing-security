@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ErrorHandlerService} from '../_errors/error-handler.service';
+import {ErrorHandlerService} from '../_shared/error-handler.service';
 
 @Component({
   templateUrl: './error.component.html'
@@ -22,6 +22,5 @@ export class ErrorComponent implements OnInit {
   goBack() {
     return this.errorHandlerService.goBack();
   }
-
 
 }

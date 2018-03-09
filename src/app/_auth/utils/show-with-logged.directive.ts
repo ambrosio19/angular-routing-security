@@ -2,7 +2,7 @@ import {Directive, TemplateRef, ViewContainerRef} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {CurrentUser} from '../models/current-user.class';
 
-@Directive({ selector: '[appShowWithLogged]'})
+@Directive({selector: '[appShowWithLogged]'})
 export class ShowWithLoggedDirective {
   private hasView = false;
   private currentUser: CurrentUser;

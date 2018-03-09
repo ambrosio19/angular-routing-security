@@ -10,6 +10,8 @@ Proponer una solución de base que resuelva los problemas se gestión y segurida
 
 ## Gestionar usuario activo después de un login
 
+**Interceptor Http**
+
 ## Inicializar usuario al ejecutar la aplicación
 
 ## Proteger acceso a páginas mediante usuarios autenticados y roles
@@ -17,6 +19,10 @@ Proponer una solución de base que resuelva los problemas se gestión y segurida
 ## Refrescar token de forma transparente
 
 ## Utilidades
+
+**Directivas estructurales**
+
+**BaseComponent**
 
 # Ejecutar aplicación
 

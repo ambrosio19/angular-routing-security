@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {BaseComponent} from './_helpers/base.component';
+import {BaseComponent} from './_shared/base.component';
 import {AuthService} from './_auth/auth.service';
 
 @Component({
@@ -10,6 +10,5 @@ export class AppComponent extends BaseComponent {
   constructor(public authService: AuthService) {
     super(authService);
   }
-
 
 }

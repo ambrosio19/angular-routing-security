@@ -8,7 +8,7 @@ import 'rxjs/add/observable/throw';
 
 import {AuthService} from './auth.service';
 import {Subject} from 'rxjs/Subject';
-import {ErrorHandlerService} from '../_errors/error-handler.service';
+import {ErrorHandlerService} from '../_shared/error-handler.service';
 
 @Injectable()
 export class AuthInterceptorClass implements HttpInterceptor {
@@ -21,8 +21,6 @@ export class AuthInterceptorClass implements HttpInterceptor {
 
   public intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<any> {
 
-    console.log('intercept');
-
     if (!httpRequest.headers.has('Content-Type')) {
       httpRequest = this.addHeaderContentType(httpRequest);
     }
@@ -34,6 +32,7 @@ export class AuthInterceptorClass implements HttpInterceptor {
     return next.handle(httpRequest).catch(err => {
 
       if (err.status === 401) {
+        console.log('HTTP_INTERCEPTOR: status 401');
         return this.refreshToken()
           .switchMap(() => {
             httpRequest = this.addHeaderAuthorization(httpRequest);
@@ -61,31 +60,32 @@ export class AuthInterceptorClass implements HttpInterceptor {
       return httpRequest;
     }
 
+    console.log('HTTP_INTERCEPTOR: addHeaderAuthorization');
     return httpRequest.clone({
       headers: httpRequest.headers.set('Authorization', 'Bearer ' + userToken)
     });
   }
 
   private refreshToken(): Observable<any> {
-      if (this.refreshTokenInProgress) {
+    if (this.refreshTokenInProgress) {
 
-        return new Observable(observer => {
-          this.tokenRefreshed.subscribe(() => {
-            observer.next();
-            observer.complete();
-          });
+      return new Observable(observer => {
+        this.tokenRefreshed.subscribe(() => {
+          observer.next();
+          observer.complete();
         });
+      });
 
-      } else {
+    } else {
 
-        this.refreshTokenInProgress = true;
+      this.refreshTokenInProgress = true;
 
-        return this.authService.refreshToken().map(() => {
-          this.refreshTokenInProgress = false;
-          this.tokenRefreshedSubject.next();
-        });
+      return this.authService.refreshToken().map(() => {
+        this.refreshTokenInProgress = false;
+        this.tokenRefreshedSubject.next();
+      });
 
-      }
+    }
   }
 }
 

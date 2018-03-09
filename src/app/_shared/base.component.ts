@@ -7,7 +7,11 @@ export abstract class BaseComponent {
   constructor(public authService: AuthService) {
     this.authService.currentUser.subscribe((currentUser: CurrentUser) => {
       this.currentUser = currentUser;
+      this.onCurrentUserChange();
     });
+  }
+
+  public onCurrentUserChange(): void {
   }
 
 }

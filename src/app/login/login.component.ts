@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import * as _ from 'lodash';
 import {AuthService} from '../_auth/auth.service';
 import {Router} from '@angular/router';
-import {BaseComponent} from '../_helpers/base.component';
-import {ErrorHandlerService} from '../_errors/error-handler.service';
+import {BaseComponent} from '../_shared/base.component';
+import {ErrorHandlerService} from '../_shared/error-handler.service';
 
 import 'rxjs/add/operator/catch';
 

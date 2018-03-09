@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../_auth/auth.service';
 import {Router} from '@angular/router';
-import {BaseComponent} from '../_helpers/base.component';
+import {BaseComponent} from '../_shared/base.component';
 import {Constants} from '../app.constants';
 
 @Component({
@@ -20,6 +20,7 @@ export class LayoutComponent extends BaseComponent {
 
   // TODO: Remove. Only for testing
   public revokeToken() {
+    console.log('-- revokeToken()');
     const userStorage = JSON.parse(localStorage.getItem(Constants.localStorage.user));
     userStorage.token = 'revokeToken';
     localStorage.setItem(Constants.localStorage.user, JSON.stringify(userStorage));
@@ -27,6 +28,7 @@ export class LayoutComponent extends BaseComponent {
 
   // TODO: Remove. Only for testing
   public revokeRefreshToken() {
+    console.log('-- revokeRefreshToken()');
     const userStorage = JSON.parse(localStorage.getItem(Constants.localStorage.user));
     userStorage.refreshToken = 'revokeRefreshToken';
     localStorage.setItem(Constants.localStorage.user, JSON.stringify(userStorage));
@@ -34,7 +36,8 @@ export class LayoutComponent extends BaseComponent {
 
   // TODO: Remove. Only for testing
   public fetchData() {
-    this.authService.fetchCallAPI();
+    console.log('-- fetchData()');
+    this.authService.fetchCallAPI().subscribe(() => {}, () => {});
   }
 
 }
